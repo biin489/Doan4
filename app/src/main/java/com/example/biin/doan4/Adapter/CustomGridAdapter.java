@@ -86,7 +86,6 @@ public class CustomGridAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,""+post1.getPost_title().toString(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, DetailPostActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("MA", (Serializable) post1);

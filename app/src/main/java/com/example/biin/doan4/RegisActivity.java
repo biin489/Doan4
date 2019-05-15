@@ -143,6 +143,12 @@ public class RegisActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    user1 = new User();
+                                    user1.setUser_id(mAuth.getCurrentUser().getUid());
+                                    user1.setUser_email(mAuth.getCurrentUser().getEmail());
+                                    user1.setUser_name(user);
+                                    user1.setUser_phone(phone);
+                                    mData.child("User").child(user1.getUser_id()).setValue(user1);
                                     Toast.makeText(RegisActivity.this,"Thành công, bạn sẽ được chuyển hướng trong giây lát",Toast.LENGTH_SHORT).show();
                                     Intent myIntent = new Intent(RegisActivity.this, MainActivity.class);
                                     RegisActivity.this.startActivity(myIntent);

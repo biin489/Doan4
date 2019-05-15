@@ -23,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.biin.doan4.model.Post;
@@ -38,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,6 +53,7 @@ public class AddActivity extends AppCompatActivity {
     StorageReference storageRef;
     DatabaseReference mData;
 
+    private TextView tvtitleTop;
     private ImageView imgvCheck, imgvGetImg;
     private EditText edtTitle, edtMaker, edtDetail, editPrice, editStatus;
     private CheckBox chbGuarantee;
@@ -63,7 +66,7 @@ public class AddActivity extends AppCompatActivity {
     private String postId;
     private Uri download;
     private boolean isHasUploadimg;
-    private Post post;
+    private Post post, postUpdate;
     private boolean isHasImage, isDone;
     private String Type;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -75,6 +78,8 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        postUpdate = (Post) getIntent().getSerializableExtra("Update");
 
         init();
 
@@ -92,18 +97,35 @@ public class AddActivity extends AppCompatActivity {
         imgvCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edtTitle.getText().toString().equals("") || edtMaker.getText().toString().equals("") || edtDetail.getText().toString().equals("") || editPrice.getText().toString().equals("") || editStatus.getText().toString().equals("") || Type == "") {
-                    Toast.makeText(AddActivity.this, "Bạn phải nhập đủ các trường", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (isHasImage) {
-                        dialog.show();
-                        try {
-                            UploadImgFromCamera();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                if (postUpdate == null) {
+                    if (edtTitle.getText().toString().equals("") || edtMaker.getText().toString().equals("") || edtDetail.getText().toString().equals("") || editPrice.getText().toString().equals("") || editStatus.getText().toString().equals("") || Type == "") {
+                        Toast.makeText(AddActivity.this, "Bạn phải nhập đủ các trường", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(AddActivity.this, "Hãy chọn ảnh", Toast.LENGTH_SHORT).show();
+                        if (isHasImage) {
+                            dialog.show();
+                            try {
+                                UploadImgFromCamera();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Toast.makeText(AddActivity.this, "Hãy chọn ảnh", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    if (edtTitle.getText().toString().equals("") || edtMaker.getText().toString().equals("") || edtDetail.getText().toString().equals("") || editPrice.getText().toString().equals("") || editStatus.getText().toString().equals("") || Type == "") {
+                        Toast.makeText(AddActivity.this, "Bạn phải nhập đủ các trường", Toast.LENGTH_SHORT).show();
+                    } else {
+                        dialog.show();
+                        post = new Post(postUpdate.getPost_id(), mAuth.getCurrentUser().getUid(), edtTitle.getText().toString(), edtDetail.getText().toString(), Long.parseLong(editPrice.getText().toString()), postUpdate.getPost_image(), Type, Integer.parseInt(editStatus.getText().toString()), edtMaker.getText().toString(), chbGuarantee.isChecked(), 1, 0);
+                        mData.child("Posts").child(postUpdate.getPost_id()).setValue(post, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                Toast.makeText(AddActivity.this,"Đã sửa xong",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
                     }
                 }
             }
@@ -139,6 +161,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void init() {
+        tvtitleTop = findViewById(R.id.add_toptitle);
         dialog = new CustomDialog(AddActivity.this);
         imgvCheck = findViewById(R.id.add_btn_add);
         imgvGetImg = findViewById(R.id.add_imgs);
@@ -154,6 +177,20 @@ public class AddActivity extends AppCompatActivity {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spOption.setAdapter(arrayAdapter);
         picImage = new CustomPicImage(AddActivity.this);
+
+        if (postUpdate != null){
+            Type = postUpdate.getPost_type();
+            tvtitleTop.setText("Sửa bài đăng");
+            Picasso.get().load(postUpdate.getPost_image()).into(imgvGetImg);
+            imgvGetImg.setScaleX(1);
+            imgvGetImg.setScaleY(1);
+            imgvGetImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            edtTitle.setText(postUpdate.getPost_title());
+            edtDetail.setText(postUpdate.getPost_detail());
+            editStatus.setText(String.valueOf(postUpdate.getPost_status()));
+            editPrice.setText(String.valueOf(postUpdate.getPost_price()));
+            edtMaker.setText(postUpdate.getPost_maker());
+        }
     }
 
     @Override

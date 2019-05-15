@@ -156,7 +156,7 @@ public class DetailPostActivity extends AppCompatActivity {
 
     private void setData() {
         tvtopTitle.setText(post.getPost_title());
-        Picasso.get().load(post.getPost_image()).resize(300, 300).into(ivImg);
+        Picasso.get().load(post.getPost_image()).into(ivImg);
         tvTitle.setText(post.getPost_title());
         tvPrice.setText(formatter.format(post.getPost_price()) + " đ");
         mData.child("User").orderByChild("user_id").equalTo(post.getPost_user_id()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -205,7 +205,7 @@ public class DetailPostActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                             user = dataSnapshot1.getValue(User.class);
-                            if (user.getUser_phone().equals("")) {
+                            if (user.getUser_phone().equals("") || user.getUser_address().equals("")) {
                                 showAlertDialog();
                             } else {
                                 Intent intent = new Intent(DetailPostActivity.this, OrderActivity.class);

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.biin.doan4.AddActivity;
 import com.example.biin.doan4.CustomDialog;
 import com.example.biin.doan4.DetailPostActivity;
 import com.example.biin.doan4.LoginActivity;
@@ -108,11 +109,14 @@ public class PfPostAdapter extends BaseAdapter {
                 public boolean onLongClick(View v) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Thông báo");
-                    builder.setMessage("Bạn có muốn xóa sản phẩm này?");
-                    builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+                    builder.setMessage("Bạn muốn thực hiện hành động nào với sản phẩm này?");
+                    builder.setPositiveButton("Sửa", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                            Intent intent = new Intent(context, AddActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("Update", (Serializable) post);
+                            context.startActivity(intent);
                         }
                     });
                     builder.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
@@ -127,10 +131,17 @@ public class PfPostAdapter extends BaseAdapter {
                             notifyDataSetChanged();
                         }
                     });
+                    builder.setNeutralButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                     builder.show();
                     return true;
                 }
             });
+            //convertView.setOn
         } else {
             //init
             convertView = inflater.inflate(R.layout.item_pf_selled, null);

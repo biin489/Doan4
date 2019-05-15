@@ -24,7 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ImageView ivImg , ivBack;
+    private ImageView ivImg, ivBack;
     private TextView tvName, tvAge, tvGender;
     private Button btnChat;
 
@@ -82,7 +82,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        Picasso.get().load(user.getUser_avatar()).transform(new CircleTransform()).resize(150, 150).into(ivImg);
+        if (user.getUser_avatar().equals("")) {
+
+        } else {
+            Picasso.get().load(user.getUser_avatar()).transform(new CircleTransform()).resize(150, 150).into(ivImg);
+        }
         if (user.getUser_fullname().equals("")) {
             tvName.setText(user.getUser_name());
         } else {

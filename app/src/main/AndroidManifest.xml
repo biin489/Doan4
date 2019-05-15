@@ -53,7 +53,12 @@
         <activity android:name=".LinkAccActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".FindActivity" />
-        <activity android:name=".AllPostActivity"></activity>
+        <activity android:name=".AllPostActivity" />
+
+        <service
+            android:name=".NotiService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

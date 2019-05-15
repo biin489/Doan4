@@ -98,14 +98,14 @@ public class MainActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 switch (menuItem.getItemId()) {
                     case R.id.nav_logout:
-                        if (mAuth.getCurrentUser()!=null) {
+                        if (mAuth.getCurrentUser() != null) {
                             mAuth.getInstance().signOut();
                             LoginManager.getInstance().logOut();
                             user = mAuth.getCurrentUser();
                             imgUser.setImageResource(R.drawable.userimg);
                             drawerLayout.closeDrawers();
                         } else {
-                            Toast.makeText(MainActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
                             drawerLayout.closeDrawers();
                         }
                         break;
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent myIntent = new Intent(MainActivity.this, InboxActivity.class);
                             MainActivity.this.startActivity(myIntent);
                         } else {
-                            Toast.makeText(MainActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
                             drawerLayout.closeDrawers();
                         }
                         break;
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                             intentProfile.putExtra("User", (Serializable) crUser);
                             MainActivity.this.startActivity(intentProfile);
                         } else {
-                            Toast.makeText(MainActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
                             drawerLayout.closeDrawers();
                         }
                         break;
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent myIntent2 = new Intent(MainActivity.this, InfoActivity.class);
                             MainActivity.this.startActivity(myIntent2);
                         } else {
-                            Toast.makeText(MainActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
                             drawerLayout.closeDrawers();
                         }
                         break;
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent myIntent1 = new Intent(MainActivity.this, MngOrderActivity.class);
                             MainActivity.this.startActivity(myIntent1);
                         } else {
-                            Toast.makeText(MainActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
                             drawerLayout.closeDrawers();
                         }
                         break;
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent myIntent3 = new Intent(MainActivity.this, SellProductActivity.class);
                             MainActivity.this.startActivity(myIntent3);
                         } else {
-                            Toast.makeText(MainActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
                             drawerLayout.closeDrawers();
                         }
                         break;
@@ -190,7 +190,11 @@ public class MainActivity extends AppCompatActivity {
                 imgAvatar = findViewById(R.id.nav_img);
                 if (mAuth.getCurrentUser() != null) {
                     tvEmail.setText(mAuth.getCurrentUser().getEmail());
-                    Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgAvatar);
+                    if (crUser.getUser_avatar().equals("")) {
+
+                    } else {
+                        Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgAvatar);
+                    }
                 } else {
                     imgAvatar.setVisibility(View.GONE);
                     tvEmail.setText("Đăng nhập/Đăng ký");
@@ -398,7 +402,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Post p1 = dataSnapshot.getValue(Post.class);
+                int index = kl_dt.indexOf(dataSnapshot.getKey());
+                listpostdt.remove(index);
+                listpostdt.add(index, p1);
+                dt.notifyDataSetChanged();
             }
 
             @Override
@@ -431,7 +439,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Post p1 = dataSnapshot.getValue(Post.class);
+                int index = kl_dgd.indexOf(dataSnapshot.getKey());
+                listpostdgd.remove(index);
+                listpostdgd.add(index, p1);
+                gd.notifyDataSetChanged();
             }
 
             @Override
@@ -464,7 +476,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Post p1 = dataSnapshot.getValue(Post.class);
+                int index = kl_tt.indexOf(dataSnapshot.getKey());
+                listposttt.remove(index);
+                listposttt.add(index, p1);
+                tt.notifyDataSetChanged();
             }
 
             @Override
@@ -497,7 +513,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Post p1 = dataSnapshot.getValue(Post.class);
+                int index = kl_dvp.indexOf(dataSnapshot.getKey());
+                listpostdvp.remove(index);
+                listpostdvp.add(index, p1);
+                vp.notifyDataSetChanged();
             }
 
             @Override
@@ -530,7 +550,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Post p1 = dataSnapshot.getValue(Post.class);
+                int index = kl_k.indexOf(dataSnapshot.getKey());
+                listpostk.remove(index);
+                listpostk.add(index, p1);
+                k.notifyDataSetChanged();
             }
 
             @Override
@@ -577,7 +601,11 @@ public class MainActivity extends AppCompatActivity {
                         crUser = ds.getValue(User.class);
                         break;
                     }
-                    Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgUser);
+                    if (crUser.getUser_avatar().equals("")) {
+
+                    } else {
+                        Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgUser);
+                    }
                 }
 
                 @Override

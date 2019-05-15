@@ -77,21 +77,28 @@ public class AllPostActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                sortByDate();
-                sortByPrice12();
-                sortByStatus12();
-                currentPage = 1;
-                if (!setDataPaging(lsDate1)) {
-                    Toast.makeText(AllPostActivity.this, "Không thể cuộn trang", Toast.LENGTH_SHORT).show();
+                if (lsDate1.size() == 0) {
+                    Toast.makeText(AllPostActivity.this,"Không có sản phẩm nào",Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
-                    edtPage.setText(String.valueOf(currentPage));
-                    tvTitle.setText(displayPost.get(1).getPost_type());
-                    lvResult.setAdapter(adapter);
+                    sortByDate();
+                    sortByPrice12();
+                    sortByStatus12();
+                    currentPage = 1;
+                    if (!setDataPaging(lsDate1)) {
+                        Toast.makeText(AllPostActivity.this, "Không thể cuộn trang", Toast.LENGTH_SHORT).show();
+                    } else {
+                        edtPage.setText(String.valueOf(currentPage));
+                        tvTitle.setText(displayPost.get(0).getPost_type());
+                        lvResult.setAdapter(adapter);
+                    }
+                    edtPage.setText("1");
+                    edtPage.setFocusable(false);
+                    edtPage.setClickable(false);
+                    dialog.dismiss();
                 }
-                edtPage.setText("1");
-                dialog.dismiss();
             }
-        }, 1500);
+        }, 2000);
 
         //event
         spSortby.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
