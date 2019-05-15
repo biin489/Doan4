@@ -111,7 +111,11 @@ public class SearchAdapter extends BaseAdapter {
             } else {
                 viewHolder.tvBh.setText("Giới tính: " + user.getUser_gender());
             }
-            Picasso.get().load(user.getUser_avatar()).resize(100, 100).into(viewHolder.ivImg);
+            if (user.getUser_avatar().equals("")) {
+                viewHolder.ivImg.setImageResource(R.drawable.userimg);
+            } else {
+                Picasso.get().load(user.getUser_avatar()).resize(100, 100).into(viewHolder.ivImg);
+            }
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

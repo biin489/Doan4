@@ -90,7 +90,11 @@ public class ChatAdapter extends BaseAdapter {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         User user = ds.getValue(User.class);
-                        Picasso.get().load(user.getUser_avatar()).transform(new CircleTransform()).resize(600, 600).into(viewHolder.userClient);
+                        if (user.getUser_avatar().equals("")) {
+                            viewHolder.userClient.setImageResource(R.drawable.userimg);
+                        } else {
+                            Picasso.get().load(user.getUser_avatar()).transform(new CircleTransform()).resize(600, 600).into(viewHolder.userClient);
+                        }
                     }
                 }
 

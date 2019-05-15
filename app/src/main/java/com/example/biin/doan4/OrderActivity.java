@@ -65,10 +65,11 @@ public class OrderActivity extends AppCompatActivity {
                 mData.child("Orders").child(orderid).setValue(order, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                        if (databaseError != null) {
+                        if (databaseError == null) {
                             hideProduct();
+                            finish();
                         } else {
-                            Toast.makeText(OrderActivity.this, "Lỗi: " + databaseError.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OrderActivity.this, "Lỗi!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

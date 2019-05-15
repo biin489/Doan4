@@ -619,9 +619,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
+    protected void onResume() {
         navigationView.getMenu().getItem(0).setChecked(true);
-        super.onPostResume();
+        if (crUser != null) {
+            if (crUser.getUser_avatar().equals("")) {
+
+            } else {
+                Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgUser);
+            }
+        }
+        super.onResume();
     }
 
     private void showLoginDialog(String noti) {

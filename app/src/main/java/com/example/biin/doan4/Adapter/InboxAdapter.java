@@ -68,7 +68,7 @@ public class InboxAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         viewHolder = new ViewHolder();
         if (convertView == null) {
@@ -83,7 +83,7 @@ public class InboxAdapter extends BaseAdapter {
         user = users.get(position);
         viewHolder.username.setText(user.getUser_fullname());
         if (user.getUser_avatar().equals("")) {
-
+            viewHolder.url.setImageResource(R.drawable.userimg);
         } else {
             Picasso.get().load(user.getUser_avatar()).resize(600, 600).into(viewHolder.url);
         }
@@ -93,7 +93,7 @@ public class InboxAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChatActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("Client User", (Serializable) user);
+                intent.putExtra("Client User", (Serializable) users.get(position));
                 context.startActivity(intent);
             }
         });

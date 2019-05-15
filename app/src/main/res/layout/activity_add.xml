@@ -378,6 +378,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:hint="VND"
+                                        android:inputType="number"
                                         android:textSize="12sp" />
 
                                 </LinearLayout>
@@ -441,6 +442,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:hint="Từ 1 - 99%"
+                                        android:inputType="number"
                                         android:textSize="12sp" />
 
                                 </LinearLayout>

@@ -123,21 +123,11 @@ public class InfoActivity extends AppCompatActivity {
                             if (edtAress.getText().toString().equals("")) {
                                 Toast.makeText(InfoActivity.this, "Bạn phải nhập địa chỉ", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(InfoActivity.this, "Đang cập nhật..." , Toast.LENGTH_SHORT).show();
-                                if (download != null) {
-                                    try {
-                                        UploadImgFromCamera();
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    updateUser = new User(mAuth.getCurrentUser().getUid(), user.getUser_name(), edtName.getText().toString(), user.getUser_email(), edtAress.getText().toString(), edtPhone.getText().toString(), Integer.parseInt(btn_age.getText().toString()), gender, user.getUser_avatar(), user.isUser_isLinked(),user.isUser_isVerify());
-                                    mData.child("User").child(mAuth.getCurrentUser().getUid()).setValue(updateUser, new DatabaseReference.CompletionListener() {
-                                        @Override
-                                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                            Toast.makeText(InfoActivity.this,"Đã cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                Toast.makeText(InfoActivity.this, "Đang cập nhật...", Toast.LENGTH_SHORT).show();
+                                try {
+                                    UploadImgFromCamera();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
                                 }
                             }
                         }
@@ -157,7 +147,7 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MonthYearPickerDialog pickerDialog = new MonthYearPickerDialog();
-                pickerDialog.setListener(new DatePickerDialog.OnDateSetListener(){
+                pickerDialog.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int i2) {
                         btn_age.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - year));
@@ -306,7 +296,7 @@ public class InfoActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     download = task.getResult();
-                    updateUser = new User(mAuth.getCurrentUser().getUid(), user.getUser_name(), edtName.getText().toString(), user.getUser_email(), edtAress.getText().toString(), edtPhone.getText().toString(), Integer.parseInt(btn_age.getText().toString()), gender, download.toString(), user.isUser_isLinked(),user.isUser_isVerify());
+                    updateUser = new User(mAuth.getCurrentUser().getUid(), user.getUser_name(), edtName.getText().toString(), user.getUser_email(), edtAress.getText().toString(), edtPhone.getText().toString(), Integer.parseInt(btn_age.getText().toString()), gender, download.toString(), user.isUser_isLinked(), user.isUser_isVerify());
                     mData.child("User").child(mAuth.getCurrentUser().getUid()).setValue(updateUser);
                     Toast.makeText(InfoActivity.this, "Đã cập nhật thành công", Toast.LENGTH_SHORT).show();
                 } else {

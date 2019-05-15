@@ -95,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (user.getUser_age() == 0) {
             tvAge.setText("Tuổi chưa rõ");
         } else {
-            tvAge.setText(String.valueOf(user.getUser_age()) + "tuổi");
+            tvAge.setText(String.valueOf(user.getUser_age()) + " tuổi");
         }
         if (user.getUser_gender().equals("")) {
             tvGender.setText("Giới tính chưa rõ");

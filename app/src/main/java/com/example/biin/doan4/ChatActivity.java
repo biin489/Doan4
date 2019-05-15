@@ -50,7 +50,11 @@ public class ChatActivity extends AppCompatActivity {
         getName();
 
         client = (User) getIntent().getSerializableExtra("Client User");
-        Picasso.get().load(client.getUser_avatar()).transform(new CircleTransform()).resize(40, 40).into(ivClient);
+        if (client.getUser_avatar().equals("")) {
+            ivClient.setImageResource(R.drawable.userimg);
+        } else {
+            Picasso.get().load(client.getUser_avatar()).transform(new CircleTransform()).resize(40, 40).into(ivClient);
+        }
         tvClient.setText(client.getUser_fullname());
         //updateUI();
 
@@ -95,7 +99,11 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        Picasso.get().load(client.getUser_avatar()).resize(40, 40).into(ivClient);
+        if (client.getUser_avatar().equals("")) {
+            ivClient.setImageResource(R.drawable.userimg);
+        } else {
+            Picasso.get().load(client.getUser_avatar()).resize(40, 40).into(ivClient);
+        }
         tvClient.setText(client.getUser_fullname());
     }
 
