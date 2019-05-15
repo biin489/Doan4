@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SecondHand Market</string>
+    <string name="title_activity_mng_order">MngOrderActivity</string>
+    <string name="facebook_app_id">845557205824647</string>
+    <string name="fb_login_protocol_scheme">fb845557205824647</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

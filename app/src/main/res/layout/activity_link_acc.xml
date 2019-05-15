@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LinkAccActivity">
+
+    //Toolbar
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ebecee"
+        android:orientation="horizontal">
+
+        //back
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/la_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Liên kết tài khoản"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            app:cardBackgroundColor="#f0f8ff"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="280dp"
+                    android:layout_height="60dp"
+                    android:text="Nhập mật khẩu cho email của bạn"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/la_mail"
+                    android:layout_width="280dp"
+                    android:layout_height="25dp"
+                    android:text="biin489@gmail.com"
+                    android:textSize="18sp"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:textStyle="bold"/>
+
+                //password
+                <LinearLayout
+                    android:layout_width="280dp"
+                    android:layout_height="50dp">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="8">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="6dp"
+                                    android:background="@drawable/padlock"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="7">
+
+                                <EditText
+                                    android:id="@+id/la_pass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Password"
+                                    android:inputType="textPassword"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="280dp"
+                    android:layout_height="45dp">
+
+                    <Button
+                        android:id="@+id/la_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Liên kết"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="#fff"
+                        android:background="@drawable/button_shape"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/la_forgotpass"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:text="Quên mật khẩu?"
+            android:textStyle="italic"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

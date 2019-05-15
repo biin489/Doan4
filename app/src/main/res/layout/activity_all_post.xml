@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".AllPostActivity">
+
+    //Toolbar
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ebecee"
+        android:orientation="horizontal">
+
+        //back
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/ap_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/ap_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sản phẩm"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#fff"
+        android:gravity="center|right">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:text="Sắp xếp" />
+
+            <Spinner
+                android:id="@+id/ap_sortby"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"></Spinner>
+
+            <Spinner
+                android:id="@+id/ap_sorttype"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"></Spinner>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/ap_lv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ap_prev"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+            <EditText
+                android:id="@+id/ap_paging"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:background="#fff"
+                android:inputType="number"/>
+
+            <ImageButton
+                android:id="@+id/ap_next"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/gr_img"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/gr_bh"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Còn bảo hành"
+        android:textStyle="bold"
+        android:gravity="center|left"/>
+    
+    <TextView
+        android:id="@+id/gr_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="abaaa"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="#000"
+        android:gravity="center|left"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".8">
+
+            <TextView
+                android:id="@+id/gr_price"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="abc"
+                android:textSize="15sp"
+                android:textColor="#ff0000"
+                android:gravity="center|left"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2">
+
+            <TextView
+                android:id="@+id/gr_tt"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="abc"
+                android:textSize="15sp"
+                android:textColor="#000"
+                android:gravity="center|left"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

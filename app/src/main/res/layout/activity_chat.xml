@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ChatActivity">
+
+    //Toolbar
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#ebecee">
+
+        //back
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/chat_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        </LinearLayout>
+
+        //user img
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/chat_userimg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"/>
+
+        </LinearLayout>
+
+        //user name
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/chat_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    //Chat
+
+    <ListView
+        android:id="@+id/lvChat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true"
+        android:divider="#fff">
+
+    </ListView>
+
+    //Inputchat
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#ebecee">
+
+        <ImageView
+            android:id="@+id/chat_camera"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_camera_alt_black_24dp"
+            android:scaleX="0.6"
+            android:scaleY="0.6"/>
+
+        <EditText
+            android:id="@+id/chat_mess"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/chat_send"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_send_black_24dp"
+            android:scaleY="0.6"
+            android:scaleX="0.6"/>
+
+    </LinearLayout>
+
+</LinearLayout>

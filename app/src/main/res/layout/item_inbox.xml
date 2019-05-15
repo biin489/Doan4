@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="65dp"
+        android:layout_height="65dp">
+
+        <ImageView
+            android:id="@+id/inbox_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/inbox_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="user"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

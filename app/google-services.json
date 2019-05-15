@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "585840118644",
+    "firebase_url": "https://demodoan1.firebaseio.com",
+    "project_id": "demodoan1",
+    "storage_bucket": "demodoan1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585840118644:android:289bec7896c8a318",
+        "android_client_info": {
+          "package_name": "com.example.biin.doan4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585840118644-vith1mgkags28b03j03odc2hpn9kp67f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFaFDjw9c760KKQDoPbQfS_k-zfwLUnAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585840118644-vith1mgkags28b03j03odc2hpn9kp67f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
