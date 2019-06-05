@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,6 +154,7 @@ public class PfPostAdapter extends BaseAdapter {
             Post post = posts.get(position);
             viewHolder.tvTitle.setText(post.getPost_title());
             if (post.getPost_score() == 0) {
+                viewHolder.tvPoint.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
                 viewHolder.tvPoint.setText("Chưa có đánh giá");
             } else {
                 viewHolder.tvPoint.setText(String.valueOf(post.getPost_score()));
