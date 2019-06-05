@@ -3,6 +3,7 @@
     package="com.example.biin.doan4">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -11,24 +12,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisActivity" />
-        <activity android:name=".ForgotpassActivity" />
-        <activity android:name=".AddActivity" />
-        <activity android:name=".DetailPostActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".InboxActivity" />
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".InfoActivity" />
-        <activity android:name=".MngOrderActivity" />
-        <activity android:name=".SellProductActivity" />
+        <activity android:name=".View.LoginActivity" />
+        <activity android:name=".View.RegisActivity" />
+        <activity android:name=".View.ForgotpassActivity" />
+        <activity android:name=".View.AddActivity" />
+        <activity android:name=".View.DetailPostActivity" />
+        <activity android:name=".View.ChatActivity" />
+        <activity android:name=".View.InboxActivity" />
+        <activity android:name=".View.OrderActivity" />
+        <activity android:name=".View.InfoActivity" />
+        <activity android:name=".View.MngOrderActivity" />
+        <activity android:name=".View.SellProductActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -50,15 +51,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".LinkAccActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".FindActivity" />
-        <activity android:name=".AllPostActivity" />
+        <activity android:name=".View.LinkAccActivity" />
+        <activity android:name=".View.ProfileActivity" />
+        <activity android:name=".View.FindActivity" />
+        <activity android:name=".View.AllPostActivity" />
 
         <service
-            android:name=".NotiService"
+            android:name=".View.NotiService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".View.VPhoneActivity"></activity>
     </application>
 
 </manifest>

@@ -2,28 +2,19 @@ package com.example.biin.doan4.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.biin.doan4.ChatActivity;
+import com.example.biin.doan4.View.ChatActivity;
 import com.example.biin.doan4.R;
-import com.example.biin.doan4.model.Inbox;
-import com.example.biin.doan4.model.PurchaseOrder;
 import com.example.biin.doan4.model.User;
-import com.example.biin.doan4.model.UserChat;
-import com.google.android.gms.tasks.SuccessContinuation;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;

@@ -64,7 +64,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_photo_library_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_perm_phone_msg_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -75,7 +75,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="0060ca" />
-                            <entry key="outputName" value="ic_photo_library_black_24dp" />
+                            <entry key="outputName" value="ic_perm_phone_msg_black_24dp" />
                             <entry key="sourceFile" value="C:\Users\Biin\Desktop\UXUI\avatar.svg" />
                           </map>
                         </option>

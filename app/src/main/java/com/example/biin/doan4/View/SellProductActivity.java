@@ -1,4 +1,4 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.biin.doan4.Adapter.SellProductAdapter;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.PurchaseOrder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -43,9 +44,9 @@ public class SellProductActivity extends AppCompatActivity {
         init();
         getData();
 
-        adapter = new SellProductAdapter(this, R.layout.item_sellp, orders);
+        adapter = new SellProductAdapter(SellProductActivity.this, R.layout.item_sellp, orders);
         lv.setAdapter(adapter);
-        adapterdone = new SellProductAdapter(this, R.layout.item_sellp, ordersdone);
+        adapterdone = new SellProductAdapter(SellProductActivity.this, R.layout.item_sellp, ordersdone);
         lvdone.setAdapter(adapterdone);
 
         ivBack.setOnClickListener(new View.OnClickListener() {

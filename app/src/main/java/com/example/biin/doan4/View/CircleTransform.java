@@ -1,4 +1,4 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

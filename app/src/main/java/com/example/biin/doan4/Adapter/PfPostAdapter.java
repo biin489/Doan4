@@ -14,13 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.biin.doan4.AddActivity;
-import com.example.biin.doan4.CustomDialog;
-import com.example.biin.doan4.DetailPostActivity;
-import com.example.biin.doan4.LoginActivity;
+import com.example.biin.doan4.View.AddActivity;
+import com.example.biin.doan4.View.DetailPostActivity;
 import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
-import com.example.biin.doan4.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -104,43 +101,47 @@ public class PfPostAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-            convertView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Thông báo");
-                    builder.setMessage("Bạn muốn thực hiện hành động nào với sản phẩm này?");
-                    builder.setPositiveButton("Sửa", new DialogInterface.OnClickListener() {
+            if (mAuth.getCurrentUser() != null) {
+                if (mAuth.getCurrentUser().getUid().equals(post.getPost_user_id())) {
+                    convertView.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(context, AddActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("Update", (Serializable) post);
-                            context.startActivity(intent);
-                        }
-                    });
-                    builder.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mData.child("Posts").child(post.getPost_id()).removeValue(new DatabaseReference.CompletionListener() {
+                        public boolean onLongClick(View v) {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Thông báo");
+                            builder.setMessage("Bạn muốn thực hiện hành động nào với sản phẩm này?");
+                            builder.setPositiveButton("Sửa", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                    Toast.makeText(context,"Đã xóa sản phẩm",Toast.LENGTH_SHORT).show();
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(context, AddActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("Update", (Serializable) post);
+                                    context.startActivity(intent);
                                 }
                             });
-                            notifyDataSetChanged();
+                            builder.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mData.child("Posts").child(post.getPost_id()).removeValue(new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                            Toast.makeText(context, "Đã xóa sản phẩm", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    notifyDataSetChanged();
+                                }
+                            });
+                            builder.setNeutralButton("Hủy", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            builder.show();
+                            return true;
                         }
                     });
-                    builder.setNeutralButton("Hủy", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.show();
-                    return true;
                 }
-            });
+            }
             //convertView.setOn
         } else {
             //init
@@ -151,7 +152,11 @@ public class PfPostAdapter extends BaseAdapter {
             //set value
             Post post = posts.get(position);
             viewHolder.tvTitle.setText(post.getPost_title());
-            viewHolder.tvPoint.setText(String.valueOf(post.getPost_score()));
+            if (post.getPost_score() == 0) {
+                viewHolder.tvPoint.setText("Chưa có đánh giá");
+            } else {
+                viewHolder.tvPoint.setText(String.valueOf(post.getPost_score()));
+            }
             Picasso.get().load(post.getPost_image()).resize(100, 100).into(viewHolder.ivPostimg);
         }
         return convertView;

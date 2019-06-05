@@ -1,4 +1,4 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.biin.doan4.Adapter.CustomGridAdapter;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.example.biin.doan4.model.User;
 import com.google.firebase.auth.FirebaseAuth;

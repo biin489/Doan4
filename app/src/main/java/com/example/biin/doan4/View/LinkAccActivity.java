@@ -1,4 +1,4 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.biin.doan4.model.User;
+import com.example.biin.doan4.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

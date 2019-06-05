@@ -17,6 +17,7 @@ public class User implements Serializable {
     private String user_avatar;
     private int user_isLinked; // 0 chi dang nhap email, 1 da lien ket , 2 chi dang nhap fb
     private boolean user_isVerify;
+    private int user_rule; //1 full quyen, 0 khong duoc dang bai;
 
     public User() {
         this.user_id = "";
@@ -30,9 +31,10 @@ public class User implements Serializable {
         this.user_avatar = "";
         this.user_isLinked = 0;
         this.user_isVerify = false;
+        this.user_rule = 1;
     }
 
-    public User(String user_id, String user_name, String user_fullname, String user_email, String user_address, String user_phone, int user_age, String user_gender, String user_avatar, int user_isLinked, boolean user_isVerify) {
+    public User(String user_id, String user_name, String user_fullname, String user_email, String user_address, String user_phone, int user_age, String user_gender, String user_avatar, int user_isLinked, boolean user_isVerify, int user_rule) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_fullname = user_fullname;
@@ -44,38 +46,7 @@ public class User implements Serializable {
         this.user_avatar = user_avatar;
         this.user_isLinked = user_isLinked;
         this.user_isVerify = user_isVerify;
-    }
-
-    public boolean isUser_isVerify() {
-        return user_isVerify;
-    }
-
-    public void setUser_isVerify(boolean user_isVerify) {
-        this.user_isVerify = user_isVerify;
-    }
-
-    public int isUser_isLinked() {
-        return user_isLinked;
-    }
-
-    public void setUser_isLinked(int user_isLinked) {
-        this.user_isLinked = user_isLinked;
-    }
-
-    public String getUser_email() {
-        return user_email;
-    }
-
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
-    }
-
-    public String getUser_phone() {
-        return user_phone;
-    }
-
-    public void setUser_phone(String user_phone) {
-        this.user_phone = user_phone;
+        this.user_rule = user_rule;
     }
 
     public String getUser_id() {
@@ -102,12 +73,28 @@ public class User implements Serializable {
         this.user_fullname = user_fullname;
     }
 
+    public String getUser_email() {
+        return user_email;
+    }
+
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
+    }
+
     public String getUser_address() {
         return user_address;
     }
 
     public void setUser_address(String user_address) {
         this.user_address = user_address;
+    }
+
+    public String getUser_phone() {
+        return user_phone;
+    }
+
+    public void setUser_phone(String user_phone) {
+        this.user_phone = user_phone;
     }
 
     public int getUser_age() {
@@ -132,5 +119,29 @@ public class User implements Serializable {
 
     public void setUser_avatar(String user_avatar) {
         this.user_avatar = user_avatar;
+    }
+
+    public int getUser_isLinked() {
+        return user_isLinked;
+    }
+
+    public void setUser_isLinked(int user_isLinked) {
+        this.user_isLinked = user_isLinked;
+    }
+
+    public boolean isUser_isVerify() {
+        return user_isVerify;
+    }
+
+    public void setUser_isVerify(boolean user_isVerify) {
+        this.user_isVerify = user_isVerify;
+    }
+
+    public int getUser_rule() {
+        return user_rule;
+    }
+
+    public void setUser_rule(int user_rule) {
+        this.user_rule = user_rule;
     }
 }

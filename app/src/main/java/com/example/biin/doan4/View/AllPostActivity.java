@@ -1,18 +1,14 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EdgeEffect;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.biin.doan4.Adapter.SearchAdapter;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.example.biin.doan4.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;

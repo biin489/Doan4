@@ -1,21 +1,17 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Handler;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -94,6 +91,25 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
+        editStatus.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (editStatus.length() > 2) {
+                    editStatus.setError("Độ mới phải nhỏ hơn 100%");
+                }
+            }
+        });
+
         imgvCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,11 +118,15 @@ public class AddActivity extends AppCompatActivity {
                         Toast.makeText(AddActivity.this, "Bạn phải nhập đủ các trường", Toast.LENGTH_SHORT).show();
                     } else {
                         if (isHasImage) {
-                            dialog.show();
-                            try {
-                                UploadImgFromCamera();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                            if (editStatus.getError() == null) {
+                                dialog.show();
+                                try {
+                                    UploadImgFromCamera();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Toast.makeText(AddActivity.this, "Độ mới không đúng", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(AddActivity.this, "Hãy chọn ảnh", Toast.LENGTH_SHORT).show();
@@ -121,7 +141,7 @@ public class AddActivity extends AppCompatActivity {
                         mData.child("Posts").child(postUpdate.getPost_id()).setValue(post, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                Toast.makeText(AddActivity.this,"Đã sửa xong",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddActivity.this, "Đã sửa xong", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                                 finish();
                             }
@@ -178,7 +198,7 @@ public class AddActivity extends AppCompatActivity {
         spOption.setAdapter(arrayAdapter);
         picImage = new CustomPicImage(AddActivity.this);
 
-        if (postUpdate != null){
+        if (postUpdate != null) {
             Type = postUpdate.getPost_type();
             tvtitleTop.setText("Sửa bài đăng");
             Picasso.get().load(postUpdate.getPost_image()).into(imgvGetImg);
@@ -257,10 +277,10 @@ public class AddActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     download = task.getResult();
-                    postId = mData.child("Posts").push().getKey();
+                    postId = mData.child("PendingPosts").push().getKey();
                     post = new Post(postId, mAuth.getCurrentUser().getUid(), edtTitle.getText().toString(), edtDetail.getText().toString(), Long.parseLong(editPrice.getText().toString()), download.toString(), Type, Integer.parseInt(editStatus.getText().toString()), edtMaker.getText().toString(), chbGuarantee.isChecked(), 1, 0);
-                    mData.child("Posts").child(postId).setValue(post);
-                    Toast.makeText(AddActivity.this,"Đăng thành công!",Toast.LENGTH_SHORT).show();
+                    mData.child("PendingPosts").child(postId).setValue(post);
+                    Toast.makeText(AddActivity.this, "Thêm bài viết thành công, quản trị viên sẽ phê duyệt bài viết của bạn nếu phù hợp", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     finish();
                 } else {

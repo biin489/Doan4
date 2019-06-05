@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailPostActivity">
+    tools:context=".View.DetailPostActivity">
 
     //Toolbar
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ebecee">
+        android:background="@drawable/bg_shadow"
+        android:elevation="6dp">
 
         <LinearLayout
             android:layout_width="50dp"
@@ -41,13 +42,17 @@
                 android:maxLength="40"
                 android:maxLines="1"
                 android:padding="10dp"
+                android:gravity="center"
                 android:text="Chi tiết mặt hàng"
-                android:textColor="#000"
-                android:textSize="20sp"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"></LinearLayout>
     </LinearLayout>
 
     <ScrollView
@@ -472,7 +477,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".6"
+                android:layout_weight=".55"
                 android:gravity="center"
                 android:padding="10dp">
 
@@ -489,16 +494,26 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".4"
-                android:padding="10dp">
+                android:layout_weight=".45"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <Button
                     android:id="@+id/detail_btn_chat"
-                    android:layout_width="match_parent"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/custombutton_chat"
                     android:text="CHAT"
                     android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custombutton_chat"
+                    android:text="Gọi"
+                    android:textColor="#fff"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".InfoActivity">
+    tools:context=".View.InfoActivity">
 
     //Toolbar
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ebecee"
+        android:background="@drawable/bg_shadow"
+        android:elevation="6dp"
         android:orientation="horizontal">
 
         //back
@@ -40,9 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Thông tin cá nhân"
-                android:textColor="#000"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -323,9 +325,18 @@
                                     android:textSize="15sp"
                                     android:layout_marginLeft="10dp"
                                     android:hint="Nhập số điện thoại"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="150dp"
                                     android:layout_height="30dp"
                                     android:inputType="phone"/>
+
+                                <TextView
+                                    android:id="@+id/info_verify"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="Xác minh"
+                                    android:gravity="center"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="16sp"></TextView>
 
                             </LinearLayout>
 

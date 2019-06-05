@@ -1,13 +1,11 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.biin.doan4.model.Post;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.User;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,7 +28,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +45,7 @@ import java.util.Calendar;
 
 public class InfoActivity extends AppCompatActivity {
 
-    private TextView tvUname, tvMail;
+    private TextView tvUname, tvMail, tvVerify;
     private ImageView ivBack, ivOk, ivAvatar;
     private EditText edtName, edtAress, edtPhone;
     private Button btn_age;
@@ -63,6 +60,7 @@ public class InfoActivity extends AppCompatActivity {
     private Uri filePath;
     private Uri download;
     private CustomPicImage picImage;
+    private Bitmap bitmap;
 
     private DatabaseReference mData;
     private FirebaseAuth mAuth;
@@ -123,11 +121,17 @@ public class InfoActivity extends AppCompatActivity {
                             if (edtAress.getText().toString().equals("")) {
                                 Toast.makeText(InfoActivity.this, "Bạn phải nhập địa chỉ", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(InfoActivity.this, "Đang cập nhật...", Toast.LENGTH_SHORT).show();
-                                try {
-                                    UploadImgFromCamera();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                                if (bitmap != null) {
+                                    Toast.makeText(InfoActivity.this, "Đang cập nhật...", Toast.LENGTH_SHORT).show();
+                                    try {
+                                        UploadImgFromCamera();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    updateUser = new User(mAuth.getCurrentUser().getUid(), user.getUser_name(), edtName.getText().toString(), user.getUser_email(), edtAress.getText().toString(), edtPhone.getText().toString(), Integer.parseInt(btn_age.getText().toString()), gender, user.getUser_avatar(), user.getUser_isLinked(), user.isUser_isVerify(), user.getUser_rule());
+                                    mData.child("User").child(mAuth.getCurrentUser().getUid()).setValue(updateUser);
+                                    Toast.makeText(InfoActivity.this, "Đã cập nhật thành công", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -181,6 +185,7 @@ public class InfoActivity extends AppCompatActivity {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGender.setAdapter(arrayAdapter);
         picImage = new CustomPicImage(InfoActivity.this);
+        tvVerify = findViewById(R.id.info_verify);
     }
 
     private void getInfo() {
@@ -229,6 +234,27 @@ public class InfoActivity extends AppCompatActivity {
             int spinnerPosition = arrayAdapter.getPosition(user.getUser_gender());
             spGender.setSelection(spinnerPosition);
         }
+        if (user.isUser_isVerify()) {
+            tvVerify.setText("Đã xác minh");
+            tvVerify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        } else {
+            tvVerify.setText("Xác minh");
+            tvVerify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(InfoActivity.this, VPhoneActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("User", (Serializable) user);
+                    intent.putExtra("Phone", edtPhone.getText().toString());
+                    InfoActivity.this.startActivity(intent);
+                }
+            });
+        }
     }
 
     private void chooseImage() {
@@ -240,7 +266,7 @@ public class InfoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         picImage.dismiss();
         if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK && data != null) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            bitmap = (Bitmap) data.getExtras().get("data");
             ivAvatar.setImageBitmap(bitmap);
             ivAvatar.setScaleX(1);
             ivAvatar.setScaleY(1);
@@ -249,7 +275,7 @@ public class InfoActivity extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ivAvatar.setImageBitmap(bitmap);
                 ivAvatar.setScaleX(1);
                 ivAvatar.setScaleY(1);
@@ -267,7 +293,6 @@ public class InfoActivity extends AppCompatActivity {
         mountainsRef = storageRef.child(url);
         ivAvatar.setDrawingCacheEnabled(true);
         ivAvatar.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) ivAvatar.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -296,7 +321,7 @@ public class InfoActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     download = task.getResult();
-                    updateUser = new User(mAuth.getCurrentUser().getUid(), user.getUser_name(), edtName.getText().toString(), user.getUser_email(), edtAress.getText().toString(), edtPhone.getText().toString(), Integer.parseInt(btn_age.getText().toString()), gender, download.toString(), user.isUser_isLinked(), user.isUser_isVerify());
+                    updateUser = new User(mAuth.getCurrentUser().getUid(), user.getUser_name(), edtName.getText().toString(), user.getUser_email(), edtAress.getText().toString(), edtPhone.getText().toString(), Integer.parseInt(btn_age.getText().toString()), gender, download.toString(), user.getUser_isLinked(), user.isUser_isVerify(), user.getUser_rule());
                     mData.child("User").child(mAuth.getCurrentUser().getUid()).setValue(updateUser);
                     Toast.makeText(InfoActivity.this, "Đã cập nhật thành công", Toast.LENGTH_SHORT).show();
                 } else {

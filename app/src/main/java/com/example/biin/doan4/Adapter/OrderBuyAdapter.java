@@ -1,8 +1,10 @@
 package com.example.biin.doan4.Adapter;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -18,8 +20,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.biin.doan4.ChatActivity;
+import com.example.biin.doan4.View.ChatActivity;
 import com.example.biin.doan4.R;
+import com.example.biin.doan4.View.CustomReport;
+import com.example.biin.doan4.View.ProfileActivity;
 import com.example.biin.doan4.model.Post;
 import com.example.biin.doan4.model.PurchaseOrder;
 import com.example.biin.doan4.model.User;
@@ -39,7 +43,6 @@ public class OrderBuyAdapter extends BaseAdapter {
     Context context;
     int idLayout;
     List<PurchaseOrder> orders;
-    private PurchaseOrder order;
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
     private RadioGroup rg;
@@ -49,6 +52,8 @@ public class OrderBuyAdapter extends BaseAdapter {
     private RadioButton r4;
     private RadioButton r5;
     private Post post;
+    private CustomReport report;
+    private Bitmap bitmap;
 
     public OrderBuyAdapter(Context context, int idLayout, List<PurchaseOrder> orders) {
         this.context = context;
@@ -56,6 +61,11 @@ public class OrderBuyAdapter extends BaseAdapter {
         this.orders = orders;
         mData = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+        report.setBitmap(bitmap);
     }
 
     @Override
@@ -95,7 +105,7 @@ public class OrderBuyAdapter extends BaseAdapter {
             viewHolder = (OrderBuyAdapter.ViewHolder) convertView.getTag();
         }
 
-        order = orders.get(position);
+        final PurchaseOrder order = orders.get(position);
         viewHolder.title.setText(order.getPo_title());
         if (order.getPo_status() == 0) {
             viewHolder.status.setText("Đang chờ xác nhận");
@@ -117,6 +127,7 @@ public class OrderBuyAdapter extends BaseAdapter {
                         Toast.makeText(context, "Bạn chưa thể nhận được hàng ở thời điểm hiện tại", Toast.LENGTH_SHORT).show();
                     } else {
                         order.setPo_status(2);
+                        mData.child("Orders").child(order.getPo_id()).child("po_status").setValue(2);
                         mData.child("HidePosts").orderByKey().equalTo(order.getPo_productid()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -143,8 +154,11 @@ public class OrderBuyAdapter extends BaseAdapter {
                         r4 = new RadioButton(context);
                         r5 = new RadioButton(context);
                         Button ok = new Button(context);
+                        Button rp = new Button(context);
+                        report = new CustomReport((Activity) context, order.getPo_sellerid());
                         //input.setInputType(InputType.TYPE_CLASS_NUMBER);
                         ok = (Button) builder.findViewById(R.id.or_ok);
+                        rp = (Button) builder.findViewById(R.id.or_rp);
                         rg = (RadioGroup) builder.findViewById(R.id.or_rg);
                         r1 = (RadioButton) builder.findViewById(R.id.or_1);
                         r2 = (RadioButton) builder.findViewById(R.id.or_2);
@@ -168,6 +182,12 @@ public class OrderBuyAdapter extends BaseAdapter {
                                 builder.dismiss();
                             }
                         });
+                        rp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                report.show();
+                            }
+                        });
                         builder.show();
                     }
                 }
@@ -177,15 +197,15 @@ public class OrderBuyAdapter extends BaseAdapter {
         viewHolder.btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getUser();
+                getUser(order);
             }
         });
 
         return convertView;
     }
 
-    private void getUser() {
-        mData.child("User").orderByKey().equalTo(order.getPo_sellerid()).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void getUser(PurchaseOrder temp) {
+        mData.child("User").orderByKey().equalTo(temp.getPo_sellerid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {

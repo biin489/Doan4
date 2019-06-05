@@ -1,4 +1,4 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.biin.doan4.Adapter.PfPostAdapter;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.example.biin.doan4.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FmSelled extends Fragment {
+public class FmSell extends Fragment {
 
     ListView lv;
     View view;
@@ -36,13 +37,14 @@ public class FmSelled extends Fragment {
     private DatabaseReference mData;
     private FirebaseAuth mAuth;
 
-    public FmSelled() {
+    public FmSell() {
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fm_selled,container,false);
+        view = inflater.inflate(R.layout.fm_sell,container,false);
 
         Userid = getArguments().getString("Userid");
         mAuth = FirebaseAuth.getInstance();
@@ -50,14 +52,14 @@ public class FmSelled extends Fragment {
 
         init();
 
-        adapter = new PfPostAdapter(getContext(),R.layout.item_chat, posts, 1);
+        adapter = new PfPostAdapter(getContext(),R.layout.item_chat, posts, 0);
         lv.setAdapter(adapter);
 
         return view;
     }
 
     private void init() {
-        lv = view.findViewById(R.id.fsed_lv);
+        lv = view.findViewById(R.id.fs_lv);
         posts = new ArrayList<>();
         lsId = new ArrayList<>();
         getData();
@@ -71,7 +73,7 @@ public class FmSelled extends Fragment {
                     user = ds.getValue(User.class);
                     break;
                 }
-                mData.child("HidePosts").orderByChild("post_user_id").equalTo(user.getUser_id()).addChildEventListener(new ChildEventListener() {
+                mData.child("Posts").orderByChild("post_user_id").equalTo(user.getUser_id()).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         Post temp = dataSnapshot.getValue(Post.class);
@@ -83,7 +85,7 @@ public class FmSelled extends Fragment {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         Post temp = dataSnapshot.getValue(Post.class);
-                        int index = posts.indexOf(dataSnapshot.getKey());
+                        int index = lsId.indexOf(dataSnapshot.getKey());
                         posts.remove(index);
                         posts.add(index,temp);
                         adapter.notifyDataSetChanged();
@@ -92,7 +94,7 @@ public class FmSelled extends Fragment {
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                         Post temp = dataSnapshot.getValue(Post.class);
-                        int index = posts.indexOf(dataSnapshot.getKey());
+                        int index = lsId.indexOf(dataSnapshot.getKey());
                         lsId.remove(index);
                         posts.remove(index);
                         adapter.notifyDataSetChanged();

@@ -3,6 +3,7 @@ package com.example.biin.doan4.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.biin.doan4.ChatActivity;
+import com.example.biin.doan4.View.ChatActivity;
 import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.PurchaseOrder;
 import com.example.biin.doan4.model.User;
@@ -34,9 +35,7 @@ public class SellProductAdapter extends BaseAdapter {
     List<PurchaseOrder> orders;
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
-    private PurchaseOrder order;
     private User user;
-    private PurchaseOrder orderTemp;
 
     public SellProductAdapter(Context context, int idLayout, List<PurchaseOrder> orders) {
         this.context = context;
@@ -70,21 +69,21 @@ public class SellProductAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        SellProductAdapter.ViewHolder viewHolder = new SellProductAdapter.ViewHolder();
+        ViewHolder viewHolder = new ViewHolder();
+        convertView = inflater.inflate(R.layout.item_sellp, null);
+        viewHolder.postImg = (ImageView) convertView.findViewById(R.id.sp_img);
+        viewHolder.title = (TextView) convertView.findViewById(R.id.sp_title);
+        viewHolder.status = (TextView) convertView.findViewById(R.id.sp_tt);
+        viewHolder.btnOK = (Button) convertView.findViewById(R.id.sp_sent);
+        viewHolder.btnChat = (Button) convertView.findViewById(R.id.sp_chat);
+        convertView.setTag(viewHolder);
         if (convertView == null) {
-            convertView = inflater.inflate(idLayout, null);
-            viewHolder.postImg = (ImageView) convertView.findViewById(R.id.sp_img);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.sp_title);
-            viewHolder.status = (TextView) convertView.findViewById(R.id.sp_tt);
-            viewHolder.btnOK = (Button) convertView.findViewById(R.id.sp_sent);
-            viewHolder.btnChat = (Button) convertView.findViewById(R.id.sp_chat);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (SellProductAdapter.ViewHolder) convertView.getTag();
-        }
 
-        order = orders.get(position);
-        //Log.d("Biin", order.getPo_title());
+        } else {
+            //viewHolder = (ViewHolder) convertView.getTag();
+        }
+        final PurchaseOrder order = orders.get(position);
+        Log.d("Biin", order.getPo_title());
         viewHolder.title.setText(order.getPo_title());
         if (order.getPo_status() == 0) {
             viewHolder.status.setText("Đang chờ xác nhận");
@@ -100,7 +99,7 @@ public class SellProductAdapter extends BaseAdapter {
         viewHolder.btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getUser();
+                getUser(order);
             }
         });
 
@@ -110,15 +109,15 @@ public class SellProductAdapter extends BaseAdapter {
                 if (order.getPo_status() == 2) {
                     Toast.makeText(context,"Mặt hàng này đã được bán",Toast.LENGTH_SHORT).show();
                 } else {
-                    editStatusPost();
+                    mData.child("Orders").child(order.getPo_id()).child("po_status").setValue(1);
                 }
             }
         });
         return convertView;
     }
 
-    private void getUser() {
-        mData.child("User").orderByKey().equalTo(order.getPo_buyerid()).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void getUser(PurchaseOrder temp) {
+        mData.child("User").orderByKey().equalTo(temp.getPo_buyerid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -138,7 +137,7 @@ public class SellProductAdapter extends BaseAdapter {
         });
     }
 
-    private void editStatusPost() {
-        mData.child("Orders").child(order.getPo_id()).child("po_status").setValue(1);
+    private void editStatusPost(PurchaseOrder orderTemp) {
+
     }
 }

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    tools:context=".View.VPhoneActivity">
+
+    //Toolbar
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_shadow"
+        android:elevation="6dp"
+        android:orientation="horizontal">
+
+        //back
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/vphone_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Xác thực số điện thoại"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/vphone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/goctron"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <EditText
+                        android:id="@+id/vphone_phone"
+                        android:layout_width="220dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_edittext"
+                        android:drawableStart="@drawable/ic_perm_phone_msg_black_24dp"
+                        android:hint="SDT"
+                        android:inputType="phone"
+                        android:paddingLeft="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/vphone_send"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custombutton_chat"
+                            android:text="Gửi mã"
+                            android:textColor="#fff" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <LinearLayout
+                        android:layout_width="220dp"
+                        android:layout_height="40dp"
+                        android:gravity="center">
+
+                        <EditText
+                            android:id="@+id/vphone_code"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/custom_edittext"
+                            android:textStyle="bold"
+                            android:text="123456"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:textSize="22sp"
+                            android:paddingLeft="5dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/vphone_verify"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custombutton_chat"
+                            android:text="Xác minh"
+                            android:textColor="#fff" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/vphone_resend"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorAccent"
+                android:text="Gửi lại mã"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

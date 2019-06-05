@@ -1,8 +1,9 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.biin.doan4.Adapter.ProfileAdapter;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
@@ -24,9 +26,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ImageView ivImg, ivBack;
+    private ImageView ivImg, ivBack, ivReport;
     private TextView tvName, tvAge, tvGender;
-    private Button btnChat;
+    private Button btnChat, btnCall;
+    private int REQUEST_CODE_IMAGE = 1;
+    private CustomReport report;
 
     ProfileAdapter adapter = null;
     private User user;
@@ -49,6 +53,16 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+        ivReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAuth.getCurrentUser() != null) {
+                    report.show();
+                } else  {
+                    showLoginDialog("Bạn cần đăng nhập để thực hiện chức năng này");
+                }
+            }
+        });
     }
 
     private void init() {
@@ -60,6 +74,12 @@ public class ProfileActivity extends AppCompatActivity {
         tvGender = findViewById(R.id.profile_gender);
         btnChat = findViewById(R.id.profile_chat);
         ivBack = findViewById(R.id.pf_back);
+        ivReport = findViewById(R.id.pf_report);
+        btnCall = findViewById(R.id.profile_call);
+        report = new CustomReport(ProfileActivity.this, user.getUser_id());
+        if (mAuth.getCurrentUser().getUid().equals(user.getUser_id())) {
+            ivReport.setVisibility(View.GONE);
+        }
 
         updateUI();
 
@@ -105,7 +125,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
             if (mAuth.getCurrentUser().getUid().equals(user.getUser_id())) {
                 btnChat.setVisibility(View.GONE);
-                //btnChat.setBackgroundColor(0xFF9E9E9E);
+                btnCall.setVisibility(View.GONE);
             } else {
                 btnChat.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -147,5 +167,14 @@ public class ProfileActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK && data != null) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            report.setBitmap(bitmap);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

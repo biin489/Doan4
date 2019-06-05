@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".InboxActivity">
+    tools:context=".View.InboxActivity">
 
     //Toolbar
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ebecee"
+        android:background="@drawable/bg_shadow"
+        android:elevation="6dp"
         android:orientation="horizontal">
 
         //back
@@ -37,14 +38,21 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/ap_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tin nhắn"
-                android:textColor="#000"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"></LinearLayout>
+
     </LinearLayout>
 
     <ListView

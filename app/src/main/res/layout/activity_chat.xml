@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ChatActivity">
+    tools:context=".View.ChatActivity">
 
     //Toolbar
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="#ebecee">
+        android:elevation="8dp"
+        android:background="@drawable/bg_shadow">
 
         //back
         <LinearLayout
@@ -43,7 +44,8 @@
 
         //user name
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center">
 
@@ -55,6 +57,18 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#000"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_perm_phone_msg_black_24dp"/>
 
         </LinearLayout>
 

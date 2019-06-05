@@ -1,18 +1,17 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.biin.doan4.Adapter.CustomGridAdapter;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.example.biin.doan4.model.User;
 import com.facebook.login.LoginManager;
@@ -36,7 +36,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -73,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mData = FirebaseDatabase.getInstance().getReference();
-
+        //showNoti();
+        Intent intent = new Intent(MainActivity.this, NotiService.class);
+        this.startForegroundService(intent);
+        //startServeice(intent);
         getUser();
         ActionViewFlipper();
 
@@ -215,8 +217,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mAuth.getCurrentUser() != null) {
-                    Intent myIntent = new Intent(MainActivity.this, AddActivity.class);
-                    MainActivity.this.startActivity(myIntent);
+                    if (crUser.isUser_isVerify()) {
+                        if (crUser.getUser_rule() == 1) {
+                            Intent myIntent = new Intent(MainActivity.this, AddActivity.class);
+                            MainActivity.this.startActivity(myIntent);
+                        } else {
+                            showAlDialog("Bạn hiện đang bị chặn quyền này");
+                        }
+                    } else {
+                        showAlDialog("Bạn cần xác minh số điện thoại để có thể đăng bài. Hãy đi tới Menu > Thông tin cá nhân để cập nhật");
+                    }
                 } else {
                     showLoginDialog("Bạn cần đăng nhập để thực hiện chức năng này");
                 }
@@ -594,18 +604,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void getUser() {
         if (mAuth.getCurrentUser() != null) {
-            mData.child("User").orderByChild("user_id").equalTo(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            mData.child("User").orderByChild("user_id").equalTo(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        crUser = ds.getValue(User.class);
-                        break;
-                    }
-                    if (crUser.getUser_avatar().equals("")) {
-
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    crUser = dataSnapshot.getValue(User.class);
+                    if (crUser.getUser_avatar().equals("")){
+                        imgUser.setImageResource(R.drawable.userimg);
                     } else {
                         Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgUser);
                     }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    crUser = dataSnapshot.getValue(User.class);
+                    if (crUser.getUser_avatar().equals("")){
+                        imgUser.setImageResource(R.drawable.userimg);
+                    } else {
+                        Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgUser);
+                    }
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                 }
 
                 @Override
@@ -614,20 +641,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-
+            imgUser.setImageResource(R.drawable.userimg);
         }
     }
 
     @Override
     protected void onResume() {
+        getUser();
         navigationView.getMenu().getItem(0).setChecked(true);
-        if (crUser != null) {
-            if (crUser.getUser_avatar().equals("")) {
-
-            } else {
-                Picasso.get().load(crUser.getUser_avatar()).transform(new CircleTransform()).into(imgUser);
-            }
-        }
         super.onResume();
     }
 
@@ -652,4 +673,25 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    private void startServeice(Intent intent) {
+        Intent intentSv = new Intent(MainActivity.this, NotiService.class);
+        ContextCompat.startForegroundService(MainActivity.this, intentSv);
+    }
+
+    private void showAlDialog(String noti) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông báo");
+        builder.setMessage(noti);
+        builder.setCancelable(true);
+        builder.setNegativeButton("Đồng ý", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }

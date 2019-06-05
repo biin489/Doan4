@@ -2,17 +2,14 @@ package com.example.biin.doan4.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.biin.doan4.DetailPostActivity;
+import com.example.biin.doan4.View.DetailPostActivity;
 import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.squareup.picasso.Picasso;

@@ -1,4 +1,4 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -9,6 +9,8 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+
+import com.example.biin.doan4.R;
 
 import java.util.Calendar;
 

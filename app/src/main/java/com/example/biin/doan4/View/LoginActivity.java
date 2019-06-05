@@ -1,9 +1,7 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -25,14 +24,11 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -49,11 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -182,23 +174,20 @@ public class LoginActivity extends AppCompatActivity {
     private void handleFacebookAccessToken(final AccessToken token) {
         final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         if (email.equals("")) {
-            dialogLoading.dismiss();
-            final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-            builder.setTitle("Thông báo");
-            builder.setMessage("Tài khoản facebook của bạn chưa có email, bạn cần tạo mới tài khoản bằng email để có thể đăng nhập, tạo mới ngay?");
-            builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+            mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (!task.isSuccessful()) {
+                        FirebaseAuthUserCollisionException exception =
+                                (FirebaseAuthUserCollisionException) task.getException();
+                    } else {
+                        updateInfo();
+                        dialogLoading.dismiss();
+                        LoginActivity.this.startActivity(myIntent);
+                        finish();
+                    }
                 }
             });
-            builder.setNegativeButton("Đồng ý", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    LoginActivity.this.startActivity(myIntent2);
-                }
-            });
-            builder.show();
         } else {
             mData.child("User").orderByChild("user_email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -224,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                             user = ds.getValue(User.class);
                             break;
                         }
-                        if (user.isUser_isLinked() == 2 || user.isUser_isLinked() == 1) {
+                        if (user.getUser_isLinked() == 2 || user.getUser_isLinked() == 1) {
                             mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -240,7 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            if (user.isUser_isLinked() == 0) {
+                            if (user.getUser_isLinked() == 0) {
                                 dialogLoading.dismiss();
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setTitle("Thông báo");
@@ -319,7 +308,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateInfo() {
         Bundle params = new Bundle();
-        params.putString("fields", "id,email,first_name,last_name,gender,picture.type(large)");
+        params.putString("fields", "id,email,first_name,last_name,picture.type(large)");
         new GraphRequest(AccessToken.getCurrentAccessToken(), "me", params, HttpMethod.GET,
                 new GraphRequest.Callback() {
                     @Override

@@ -1,8 +1,10 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,12 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.example.biin.doan4.model.PurchaseOrder;
 import com.example.biin.doan4.model.User;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,6 +76,20 @@ public class OrderActivity extends AppCompatActivity {
                 });
             }
         });
+
+        tvCancer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
     }
 
     private void init(){
@@ -95,8 +110,8 @@ public class OrderActivity extends AppCompatActivity {
     private void updateUI(){
         Picasso.get().load(post.getPost_image()).into(orderImg);
         tvTitle.setText(post.getPost_title());
-        tvPrice.setText(post.getPost_price() + "vnđ");
-        tvTT.setText(post.getPost_status() + "%");
+        tvPrice.setText("Giá: " + post.getPost_price() + "vnđ");
+        tvTT.setText("Độ mới: " + post.getPost_status() + "%");
         edtName.setText(user.getUser_fullname());
         edtAddress.setText(user.getUser_address());
         edtPhone.setText(user.getUser_phone());
@@ -133,6 +148,25 @@ public class OrderActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void showDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(OrderActivity.this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn có muốn hủy đơn hàng này?");
+        builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Đồng ý", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.show();
     }
 
 }

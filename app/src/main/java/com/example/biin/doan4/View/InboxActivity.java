@@ -1,4 +1,4 @@
-package com.example.biin.doan4;
+package com.example.biin.doan4.View;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.biin.doan4.Adapter.InboxAdapter;
+import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;

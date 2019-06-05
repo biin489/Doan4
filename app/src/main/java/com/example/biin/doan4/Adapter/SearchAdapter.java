@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.biin.doan4.DetailPostActivity;
-import com.example.biin.doan4.ProfileActivity;
+import com.example.biin.doan4.View.DetailPostActivity;
+import com.example.biin.doan4.View.ProfileActivity;
 import com.example.biin.doan4.R;
 import com.example.biin.doan4.model.Post;
 import com.example.biin.doan4.model.User;
@@ -63,7 +62,7 @@ public class SearchAdapter extends BaseAdapter {
 
     public class ViewHolder {
         ImageView ivImg;
-        TextView tvTitle, tvPrice, tvBh;
+        TextView tvTitle, tvPrice, tvBh, tvTt;
     }
 
     @Override
@@ -76,12 +75,14 @@ public class SearchAdapter extends BaseAdapter {
         viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.pfsell_title);
         viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.pfsell_gia);
         viewHolder.tvBh = (TextView) convertView.findViewById(R.id.pfsell_bh);
+        viewHolder.tvTt = (TextView) convertView.findViewById(R.id.pfsell_tt);
         convertView.setTag(viewHolder);
         if (type == 0) {
             //set value
             final Post post = posts.get(position);
             viewHolder.tvTitle.setText(post.getPost_title());
             viewHolder.tvPrice.setText(formatter.format(post.getPost_price()) + " đ");
+            viewHolder.tvTt.setText(post.getPost_status() + " %");
             if (post.getPost_is_guarantee()) {
                 viewHolder.tvBh.setText("Còn bảo hành");
             } else {
@@ -100,7 +101,11 @@ public class SearchAdapter extends BaseAdapter {
         } else {
             //set value
             final User user = users.get(position);
-            viewHolder.tvTitle.setText(user.getUser_fullname());
+            if (user.getUser_fullname().equals("")) {
+                viewHolder.tvTitle.setText(user.getUser_name());
+            } else {
+                viewHolder.tvTitle.setText(user.getUser_fullname());
+            }
             if (user.getUser_age() == 0) {
                 viewHolder.tvPrice.setText("Tuổi chưa rõ");
             } else {
@@ -116,6 +121,7 @@ public class SearchAdapter extends BaseAdapter {
             } else {
                 Picasso.get().load(user.getUser_avatar()).resize(100, 100).into(viewHolder.ivImg);
             }
+            viewHolder.tvTt.setText("");
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
